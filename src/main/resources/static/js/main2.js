@@ -48,7 +48,6 @@ function enterRoom(newRoomId) {
   if (currentSubscription) {
     currentSubscription.unsubscribe();
   }
-  //currentSubscription = stompClient.subscribe(`/lobby`, onMessageReceived);
   currentSubscription = stompClient.subscribe(`/channel/${roomId}`, onMessageReceived);
 
   stompClient.send(`${topic}/addAgent`,
@@ -79,8 +78,10 @@ function sendMessage(event) {
   var messageContent = messageInput.value.trim();
   if (messageContent.startsWith('/back')) {
     enterLobby();
-  }
-  if (messageContent.startsWith('/join ')) {
+    while (messageArea.firstChild) {
+      messageArea.removeChild(messageArea.firstChild);
+    }
+  } else if (messageContent.startsWith('/join ')) {
     var newRoomId = messageContent.substring('/join '.length);
     enterRoom(newRoomId);
     while (messageArea.firstChild) {
