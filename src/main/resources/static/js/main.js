@@ -75,13 +75,7 @@ function onError(error) {
 
 function sendMessage(event) {
   var messageContent = messageInput.value.trim();
-  if (messageContent.startsWith('/join ')) {
-    var newRoomId = messageContent.substring('/join '.length);
-    enterRoom(newRoomId);
-    while (messageArea.firstChild) {
-      messageArea.removeChild(messageArea.firstChild);
-    }
-  } else if (messageContent && stompClient) {
+   if (messageContent && stompClient) {
     var chatMessage = {
       sender: username,
       content: messageInput.value,
