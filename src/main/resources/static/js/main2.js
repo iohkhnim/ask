@@ -64,7 +64,6 @@ function enterLobby() {
     if (currentSubscription) {
         currentSubscription.unsubscribe();
     }
-
     currentSubscription = stompClient.subscribe(`/lobby`, onMessageReceived);
 }
 
@@ -86,8 +85,15 @@ function sendMessage(event) {
             messageArea.removeChild(messageArea.firstChild);
         }
     } else if (messageContent.startsWith('/join ')) {
-        var newRoomId = messageContent.substring('/join '.length);
+        var command = messageContent.substring('/join '.length);
+        var array = command.split(" ");
+        var newRoomId = array[0];
+        var productId = array[1];
         enterRoom(newRoomId);
+        stompClient.send(`${topic}/getProductInfo`,
+            {},
+            JSON.stringify({sender: username, content: productId, type: 'PRODUCT'})
+        );
         while (messageArea.firstChild) {
             messageArea.removeChild(messageArea.firstChild);
         }
@@ -114,7 +120,12 @@ function onMessageReceived(payload) {
     } else if (message.type == 'LEAVE') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
-    } else {
+    } else if (message.type == 'INFO') {
+        messageElement.classList.add('event-message');
+    } else if (message.type == 'PRODUCT') {
+        messageElement.classList.add('event-message');
+    }
+    else {
         messageElement.classList.add('chat-message');
 
         var avatarElement = document.createElement('i');

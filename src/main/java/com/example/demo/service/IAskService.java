@@ -1,4 +1,8 @@
 package com.example.demo.service;
 
-public class IAskService {
+import com.khoi.productproto.ProductEntry;
+
+public interface IAskService {
+
+  ProductEntry getProductInfo(int productId);
 }

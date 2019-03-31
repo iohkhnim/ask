@@ -3,7 +3,7 @@ package com.example.demo.model;
 public class ChatMessage {
 
   public enum MessageType {
-    CHAT, JOIN, LEAVE, INFO
+    CHAT, JOIN, LEAVE, INFO, PRODUCT
   }
 
   private MessageType messageType;
