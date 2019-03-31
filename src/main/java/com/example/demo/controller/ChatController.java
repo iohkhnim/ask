@@ -86,7 +86,7 @@ public class ChatController {
       headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
 
       ProductEntry entry = askService.getProductInfo(Integer.parseInt(chatMessage.getContent()));
-      chatMessage.setContent("Name: " + entry.getName() + ", Desciption: " + entry.getDescription());
+      chatMessage.setContent("Name: " + entry.getName() + ", Description: " + entry.getDescription());
       messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
     }
   }
