@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import static java.lang.String.format;
-
 import com.example.demo.model.ChatMessage;
 import com.example.demo.model.ChatMessage.MessageType;
 import org.slf4j.Logger;
@@ -14,13 +12,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import static java.lang.String.format;
+
 @Component
 public class WebSocketEventListener {
 
   private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
 
-  @Autowired
-  private SimpMessageSendingOperations messagingTemplate;
+  @Autowired private SimpMessageSendingOperations messagingTemplate;
 
   @EventListener
   public void handleWebSocketConnectListener(SessionConnectedEvent event) {
@@ -44,4 +43,3 @@ public class WebSocketEventListener {
     }
   }
 }
-

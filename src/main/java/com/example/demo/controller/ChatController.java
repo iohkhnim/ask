@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.ChatMessage;
 import com.example.demo.model.ChatMessage.MessageType;
 import com.example.demo.service.IAskService;
-import com.khoi.productproto.ProductEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,9 +83,7 @@ public class ChatController {
       SimpMessageHeaderAccessor headerAccessor) {
     if (chatMessage.getType() == MessageType.PRODUCT) {
       headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-
-      ProductEntry entry = askService.getProductInfo(Integer.parseInt(chatMessage.getContent()));
-      chatMessage.setContent("Name: " + entry.getName() + ", Description: " + entry.getDescription());
+      chatMessage.setContent(askService.getProductInfo(Integer.parseInt(chatMessage.getContent())));
       messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
     }
   }
