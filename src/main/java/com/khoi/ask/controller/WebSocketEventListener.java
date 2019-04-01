@@ -1,7 +1,7 @@
-package com.example.demo.controller;
+package com.khoi.ask.controller;
 
-import com.example.demo.model.ChatMessage;
-import com.example.demo.model.ChatMessage.MessageType;
+import com.khoi.ask.model.ChatMessage;
+import com.khoi.ask.model.ChatMessage.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

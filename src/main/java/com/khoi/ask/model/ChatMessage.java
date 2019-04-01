@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.khoi.ask.model;
 
 public class ChatMessage {
 

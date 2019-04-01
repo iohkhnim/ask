@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.khoi.ask.service;
 
 public interface IAskService {
 

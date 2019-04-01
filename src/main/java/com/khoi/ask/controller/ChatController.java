@@ -1,8 +1,10 @@
-package com.example.demo.controller;
+package com.khoi.ask.controller;
 
-import com.example.demo.model.ChatMessage;
-import com.example.demo.model.ChatMessage.MessageType;
-import com.example.demo.service.IAskService;
+import static java.lang.String.format;
+
+import com.khoi.ask.model.ChatMessage;
+import com.khoi.ask.model.ChatMessage.MessageType;
+import com.khoi.ask.service.IAskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +15,14 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
-import static java.lang.String.format;
-
 @Controller
 public class ChatController {
 
   private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
-  @Autowired IAskService askService;
-  @Autowired private SimpMessageSendingOperations messagingTemplate;
+  @Autowired
+  IAskService askService;
+  @Autowired
+  private SimpMessageSendingOperations messagingTemplate;
 
   @MessageMapping("/chat/{roomId}/sendMessage")
   public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
@@ -83,7 +85,8 @@ public class ChatController {
       SimpMessageHeaderAccessor headerAccessor) {
     if (chatMessage.getType() == MessageType.PRODUCT) {
       headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-      chatMessage.setContent(askService.getProductInfo(Integer.parseInt(chatMessage.getContent())));
+      chatMessage.setContent(askService.getProductInfo(
+          chatMessage.getContent() != null ? Integer.parseInt(chatMessage.getContent()) : -1));
       messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
     }
   }
