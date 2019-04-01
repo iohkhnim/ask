@@ -24,11 +24,26 @@ public class ChatController {
   @Autowired
   private SimpMessageSendingOperations messagingTemplate;
 
+  /**
+   * <p>This controller receives every message sent to /chat/{roomId}/sendMessage then sends to
+   * everyone subscribes to /channel/{roomId} </p>
+   *
+   * @param roomId Id of current room
+   * @param chatMessage Contains CHAT message
+   */
   @MessageMapping("/chat/{roomId}/sendMessage")
   public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
     messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
   }
 
+  /**
+   * <p>This controller receives every message sent to /chat/{roomId}/addUser then sends to
+   * everyone subscribes to /channel/{roomId} </p>
+   *
+   * @param roomId Id of current room
+   * @param chatMessage Contains JOIN message
+   * @param headerAccessor Access to Header
+   */
   @MessageMapping("/chat/{roomId}/addUser")
   public void addUser(
       @DestinationVariable String roomId,
@@ -45,6 +60,15 @@ public class ChatController {
     messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
   }
 
+  /**
+   * <p>This controller receives message from user then announces to agent user's room ID and
+   * product ID</p>
+   *
+   * @param roomId Id of user's room
+   * @param productId Id of product that customer wants to talk about
+   * @param chatMessage Contains INFO message
+   * @param headerAccessor Access to Header
+   */
   @MessageMapping("/chat/{roomId}/{productId}/info")
   public void getInfo(
       @DestinationVariable String roomId,
@@ -56,12 +80,28 @@ public class ChatController {
     messagingTemplate.convertAndSend(format("/lobby"), chatMessage);
   }
 
+  /**
+   * <p>This controller receives every message sent to /chat/agent/{roomId}/sendMessage then sends
+   * to everyone subscribes to /channel/{roomId} </p>
+   *
+   * @param roomId Id of current room
+   * @param chatMessage Contains CHAT message
+   */
   @MessageMapping("/chat/agent/{roomId}/sendMessage")
   public void sendAgentMessage(
       @DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
     messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
   }
 
+  /**
+   * <p>This controller receives every message sent to /chat/{roomId}/addAgent then sends to
+   * everyone
+   * subscribes to /channel/{roomId} </p>
+   *
+   * @param roomId Id of current room
+   * @param chatMessage Contains JOIN message
+   * @param headerAccessor Access to Header
+   */
   @MessageMapping("/chat/agent/{roomId}/addAgent")
   public void addAgent(
       @DestinationVariable String roomId,
@@ -78,6 +118,14 @@ public class ChatController {
     messagingTemplate.convertAndSend(format("/channel/%s", roomId), chatMessage);
   }
 
+  /**
+   * <p>This controller receives every message sent to /chat/agent/{roomId}/getProductInfo then
+   * sends to agent product information</p>
+   *
+   * @param roomId Id of current room
+   * @param chatMessage Contains PRODUCT message which has product information
+   * @param headerAccessor Access to Header
+   */
   @MessageMapping("/chat/agent/{roomId}/getProductInfo")
   public void getProductInfo(
       @DestinationVariable String roomId,

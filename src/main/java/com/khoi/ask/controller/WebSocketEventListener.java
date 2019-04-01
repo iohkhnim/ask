@@ -21,11 +21,19 @@ public class WebSocketEventListener {
 
   @Autowired private SimpMessageSendingOperations messagingTemplate;
 
+  /**
+   * This method prints a sentence when receive a socket connection
+   * @param event Connected event
+   */
   @EventListener
   public void handleWebSocketConnectListener(SessionConnectedEvent event) {
     logger.info("Received a new web socket connection.");
   }
 
+  /**
+   * This method sends a message who currently in a room which just has a user disconnected
+   * @param event Disconnected event
+   */
   @EventListener
   public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());

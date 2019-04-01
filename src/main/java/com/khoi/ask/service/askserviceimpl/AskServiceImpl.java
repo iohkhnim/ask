@@ -7,6 +7,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AskServiceImpl implements IAskService {
 
+  /**
+   * {@inheritDoc}
+   */
   public String getProductInfo(int productId) {
     if (productId == -1) {
       return "Khong ton tai san pham nay";
