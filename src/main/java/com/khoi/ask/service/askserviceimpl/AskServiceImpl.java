@@ -14,7 +14,7 @@ public class AskServiceImpl implements IAskService {
     if (productId == -1) {
       return "Khong ton tai san pham nay";
     } else {
-      String url = "http://localhost:8080/product/" + productId;
+      String url = "http://172.17.0.2:8080/product/" + productId;
       RestTemplate restTemplate = new RestTemplate();
       try {
         return restTemplate.getForObject(url, String.class);
