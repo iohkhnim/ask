@@ -1,12 +1,15 @@
 package com.khoi.ask.service.askserviceimpl;
 
 import com.khoi.ask.service.IAskService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AskServiceImpl implements IAskService {
 
+  @Value("${productRestEndpoint}")
+  private String productRestEndpoint;
   /**
    * {@inheritDoc}
    */
@@ -14,7 +17,7 @@ public class AskServiceImpl implements IAskService {
     if (productId == -1) {
       return "Khong ton tai san pham nay";
     } else {
-      String url = "http://172.17.0.2:8080/product/" + productId;
+      String url = productRestEndpoint + productId;
       RestTemplate restTemplate = new RestTemplate();
       try {
         return restTemplate.getForObject(url, String.class);
